@@ -11,8 +11,8 @@ auth_token = os.getenv("AUTH_TOKEN")
 def messager():
     client = Client(sid, auth_token)
 
-    sender_no = "+13525038821"
-    receiver_no = "+919820441833"
+    sender_no = ""
+    receiver_no = ""
 
     body = "hi"
     message = client.messages.create(
