@@ -1,1 +1,1 @@
-E:\IM cam\IMICamera_DSmartLife_Windows_PC_App
+Replace this file's content with your IMICamera directory path, eg:"E:\IMICamera_DSmartLife_Windows_PC_App"
