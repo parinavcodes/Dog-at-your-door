@@ -1,25 +1,18 @@
 import cv2
 import numpy as np
-# import time
 from datetime import datetime
 from abspath import resource_path
-# import psutil
 
-# import tracemalloc
 
-# tracemalloc.start()
-
-# cap = cv2.VideoCapture("cm5.jpg")
-# cap = cv2.VideoCapture("opt.mp4")
 detection_classes = []
 IMG_SIZE = 416
 
-with open(resource_path('yolo1/coco.names.txt'), 'rt') as f:
-    detection_classes = f.read().rstrip('\n').split('\n')
+with open(resource_path('yolo/coco.names.txt'), 'rt') as f:     #you can either store coco.names.txt, yolov4.cfg and yolov4.weights  
+    detection_classes = f.read().rstrip('\n').split('\n')       #in a repository named yolo or store all three files in the source directory
 
 
-model_config = resource_path("yolo1/yolov4.cfg")
-model_weights = resource_path("yolo1/yolov4.weights")
+model_config = resource_path("yolo/yolov4.cfg")
+model_weights = resource_path("yolo/yolov4.weights")
 
 net = cv2.dnn.readNetFromDarknet(model_config, model_weights)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
@@ -45,7 +38,6 @@ def find_objects(outputs, img, identified):
                 class_ids.append(class_id)
                 confidence_vals.append(float(confidence))
 
-    # print(bbox)
     indices = cv2.dnn.NMSBoxes(bbox, confidence_vals, 0.5, NMS_THRESHOLD)
     if len(indices) > 0:
         identified[0] = True
@@ -53,27 +45,16 @@ def find_objects(outputs, img, identified):
         i = i[0]
         box = bbox[i]
         x, y, w, h = box[0], box[1], box[2], box[3]
-        # cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 255), 2)
-        # print(detection_classes[class_ids[i]])
+        
         if detection_classes[class_ids[i]] == "dog":
             print(" Detection:", datetime.now().strftime("%H:%M:%S %Y-%m-%d"))
             identified[1] = 1
             return identified
-    # if len(indices) == 0:
-    #     print("no classification")
-    #     return False
-    # print("couldn't find")
     return [identified[0], identified[1]]
-# i = 0
 
 
 def object_classifier(cap):
-
-    # while 1:
-    # res, img = cap.read()
-
     img = cap
-    # img = cv2.imread("cm1.jpg")
     blob = cv2.dnn.blobFromImage(
         img, 1/255, (IMG_SIZE, IMG_SIZE), [0, 0, 0], 1, crop=False)
     net.setInput(blob)
@@ -85,24 +66,4 @@ def object_classifier(cap):
 
     detect_res = find_objects(outputs, img, [False, 0])
 
-    # print(psutil.cpu_percent())
-    # cv2.imshow('fq', img)
-    # time.sleep(5)
     return detect_res
-
-    # if res == False:
-    #     break
-
-    # print(outputs[0].shape, outputs[1].shape, outputs[2].shape)
-    # print(net.getUnconnectedOutLayers())
-
-    # cv2.destroyAllWindows()
-    # print(psutil.cpu_percent())
-
-    # current, peak = tracemalloc.get_traced_memory()
-    # print(
-    #     f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
-    # tracemalloc.stop()
-
-
-# object_classifier(cap)
