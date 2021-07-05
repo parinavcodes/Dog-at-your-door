@@ -1,6 +1,6 @@
 # Dog At Your Door
 Want to get notified when your dog is at the door? You've come to right place.<br><br>
-The repository automates the process of right from opening your Camera App(MI Home Security Camera in my case. You can make appropriate changes for any other app in the code) and capturing screen shapshots.
+The repository automates the process of right from opening your Camera App(MI Home Security Camera in my case. You can make appropriate changes for any other app in the code) and capturing screen snapshots.
 
 ## How it works
 It incoporates OpenCV with YOLO(You Only Look Once) to identify dogs whenever a motion is detected.<br><br>
